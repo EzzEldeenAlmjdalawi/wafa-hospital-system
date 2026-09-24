@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
 # Install system dependencies & PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -14,10 +14,12 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-# Setup SQLite database file if not exists
+# Setup SQLite database file & directory permissions
 RUN touch database/database.sqlite
 RUN chmod -R 777 storage bootstrap/cache database
 
-EXPOSE 8000
+# Render sets the PORT environment variable dynamically
+ENV PORT=10000
+EXPOSE 10000
 
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT

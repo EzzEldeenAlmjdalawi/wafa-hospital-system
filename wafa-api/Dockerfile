@@ -12,9 +12,13 @@ WORKDIR /var/www
 
 COPY . .
 
+# Ensure we are inside the Laravel directory if nested
+RUN if [ -d "wafa-api" ]; then cp -r wafa-api/* . && cp -r wafa-api/.* . 2>/dev/null || true; fi
+
 RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
-# Setup SQLite database file & directory permissions
+# Ensure required directories exist and permissions are set
+RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache bootstrap/cache database
 RUN touch database/database.sqlite
 RUN chmod -R 777 storage bootstrap/cache database
 

@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const API_BASE_URL = 'https://wafa-hospital-system-1-ifab.onrender.com/api/v1';
 const TOKEN_KEY = 'wafaa_his_api_token_v1';
 
 export const authToken = {
